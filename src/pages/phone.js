@@ -1,83 +1,34 @@
-import React, { useState } from 'react'
-import { Table, Button, Popconfirm, Modal } from 'antd'
+import React, { useState, useEffect } from 'react'
+import { Form, Table, Input, InputNumber, Button, Popconfirm, Modal, message } from 'antd'
 import css from 'styled-jsx/css'
+import api from '../api/phone'
 
 export default () => {
   const columns = [
     {
-      title: 'Full Name',
-      width: 100,
+      title: 'id',
+      dataIndex: 'id',
+      key: 'id'
+    },
+    {
+      title: 'name',
       dataIndex: 'name',
-      key: 'name',
-      fixed: 'left'
+      key: 'name'
     },
     {
-      title: 'Age',
-      width: 100,
-      dataIndex: 'age',
-      key: 'age',
-      fixed: 'left'
+      title: 'price',
+      dataIndex: 'price',
+      key: 'price'
     },
     {
-      title: 'Column 1',
-      dataIndex: 'address',
-      key: '1',
-      width: 150
-    },
-    {
-      title: 'Column 2',
-      dataIndex: 'address',
-      key: '2',
-      width: 150
-    },
-    {
-      title: 'Column 3',
-      dataIndex: 'address',
-      key: '3',
-      width: 150
-    },
-    {
-      title: 'Column 4',
-      dataIndex: 'address',
-      key: '4',
-      width: 150
-    },
-    {
-      title: 'Column 5',
-      dataIndex: 'address',
-      key: '5',
-      width: 150
-    },
-    {
-      title: 'Column 6',
-      dataIndex: 'address',
-      key: '6',
-      width: 150
-    },
-    {
-      title: 'Column 7',
-      dataIndex: 'address',
-      key: '7',
-      width: 150
-    },
-    // { title: 'Column 8', dataIndex: 'address', key: '8' },
-    {
-      title: 'Column 9',
-      dataIndex: 'address',
-      key: '9',
-      width: 350
-    },
-    {
-      title: 'Column 10',
-      dataIndex: 'address',
-      key: '10',
-      width: 250
+      title: 'brand',
+      dataIndex: 'brand',
+      key: 'brand'
     },
     {
       title: 'Action',
       key: 'operation',
-      fixed: 'right',
-      width: 100,
+      width: 250,
       render: (row) => {
         return (
           <div>
@@ -93,50 +44,101 @@ export default () => {
     }
   ]
 
-  const data = []
-  for (let i = 0; i < 100; i++) {
-    data.push({
-      key: i,
-      name: `Edrward ${i}`,
-      age: 32,
-      address: `London Park no. ${i}`
-    })
+  useEffect(() => {
+    onLoad()
+  }, [])
+
+  const onLoad = async () => {
+    const data = await api.list()
+    setDataSource(data)
   }
 
-  const [currentData, setCurrentData] = useState({})
+  const [dataSource, setDataSource] = useState([])
   const [visible, setVisible] = useState(false)
-  const [confirmLoading, setConfirmLoading] = useState(false)
+  const [currentId, setCurrentId] = useState(null)
 
-  const onUpdate = (row) => {
-    console.log('==> onUpdate', row)
-    setCurrentData({ ...row })
+  const onUpdate = ({ id }) => {
+    console.log('==> onUpdate', id)
+    setCurrentId(id)
     setVisible(true)
   }
 
-  const onDelete = (row) => {
-    console.log('==> onDelete', row)
-  }
-
-  const handleOk = () => {
-    setConfirmLoading(true)
-    setTimeout(() => {
-      setVisible(false)
-      setConfirmLoading(false)
-    }, 2000)
-  }
-
-  const handleCancel = () => {
-    setVisible(false)
+  const onDelete = async ({ id }) => {
+    console.log('==> onDelete', id)
+    try {
+      const res = await api.remove({ id })
+      message.success(res.data.message)
+      onLoad()
+    } catch (error) {
+      message.error('删除失败')
+    }
   }
 
   return (
     <div className="table-container">
-      <Table bordered columns={columns} dataSource={data} scroll={{ x: 500 }} />
-      <Modal title="Title" visible={visible} onOk={handleOk} confirmLoading={confirmLoading} onCancel={handleCancel}>
-        <h1>{currentData.key}</h1>
-      </Modal>
+      <div className="">
+        <Button
+          type="primary"
+          onClick={() => {
+            setVisible(true)
+            setCurrentId(null)
+          }}
+        >
+          新增
+        </Button>
+      </div>
+      <Table bordered rowKey="id" columns={columns} dataSource={dataSource} />
+      <FormModal id={currentId} visible={visible} close={() => setVisible(false)} refresh={() => onLoad()}></FormModal>
       <style jsx>{styles}</style>
     </div>
+  )
+}
+
+const FormModal = ({ id, visible, close, refresh }) => {
+  const [form] = Form.useForm()
+
+  useEffect(() => {
+    id ? loadData() : form.resetFields()
+  }, [id])
+
+  const loadData = async () => {
+    const { data } = await api.detail({ id })
+    form.setFieldsValue(data)
+  }
+
+  const submit = async (values) => {
+    try {
+      const res = id ? await api.update(values) : await api.add(values)
+      message.success(res.data.message)
+      refresh()
+    } catch (error) {
+      message.error(error.response.data.message || '新增失败')
+    }
+    close()
+  }
+
+  return (
+    <Modal title={id ? '编辑' : '新增'} visible={visible} closable footer={null} onCancel={() => close()}>
+      <Form form={form} name="basic" onFinish={submit}>
+        <Form.Item label="id" name="id" rules={[{ required: true, message: 'Please input your id!' }]}>
+          <Input disabled={!!id} />
+        </Form.Item>
+        <Form.Item label="name" name="name" rules={[{ required: true, message: 'Please input your name!' }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item label="price" name="price" rules={[{ required: true, message: 'Please input your price!' }]}>
+          <InputNumber controls={false} />
+        </Form.Item>
+        <Form.Item label="brand" name="brand" rules={[{ required: true, message: 'Please input your brand!' }]}>
+          <Input />
+        </Form.Item>
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Form>
+    </Modal>
   )
 }
 

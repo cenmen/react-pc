@@ -1,7 +1,3 @@
-## Task
- 1. 请求数据（CUDR）
- 2. 登录验证
-
 ## 参考资料
   ### 官方文档
   - [webpack5](https://webpack.docschina.org/guides/)
@@ -10,6 +6,8 @@
   - [react](https://zh-hans.reactjs.org/docs/getting-started.html)
   - [eslint 规则](http://eslint.cn/docs/rules/)
   - [babel](https://babel.docschina.org/docs/en/)
+  - [axios] (https://www.axios-http.cn/)
+  - [express] (http://expressjs.jser.us/3x_zh-cn/api.html)
   ### plugin & loader
   - [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#configuration)
   - [webpack-dev-server 配置](https://webpack.js.org/configuration/dev-server/#devserveropen)
