@@ -6,7 +6,7 @@
   "homepage": ".",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --config webpack.dev.config.js",
+    "start": "webpack serve --config webpack.dev.config.js --open",
     "serve": "node ./node/index.js",
     "lint": "eslint 'src/**' --fix --cache",
     "build": "webpack"

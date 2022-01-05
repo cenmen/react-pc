@@ -38,6 +38,7 @@
   ```javascript
   // 打包依赖
   cnpm install --save-dev webpack webpack-cli
+  cnpm install --save-dev style-loader css-loader // 这里主要是使用的 antd 需要
   cnpm install --save-dev @babel/core @babel/preset-env @babel/preset-react
   cnpm install --save-dev babel-loader
   cnpm install --save-dev html-webpack-plugin webpack-dev-server
@@ -65,3 +66,6 @@
   - npm run build // 生产环境打包
   - npm run lint // 代码格式及校验（具体可查看 .prettierrc.js .eslintrc.js 配置）
   ```
+
+## 备注
+package.json homepage 被设置为 "."，方便本地调试，部署到服务记得修改
