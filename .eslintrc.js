@@ -20,7 +20,9 @@ module.exports = {
     ecmaVersion: 2019,
     sourceType: "module",
   },
-  globals: {},
+  globals: {
+    ENV: false
+  },
   plugins: ["react"],
   /**
    * "off" 或 0 - 关闭规则

@@ -1,5 +1,5 @@
 module.exports = {
-  printWidth: 120, // 一行的字符数换行
+  printWidth: 180, // 一行的字符数换行
   tabWidth: 2, // 一个tab代表几个空格数
   useTabs: false, // 是否使用tab进行缩进
   singleQuote: true, // 字符串是否使用单引号

@@ -1,41 +1,46 @@
-const path = require("path")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+const path = require('path')
+const { DefinePlugin } = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
-  entry: "./src/app.js",
+  entry: './src/app.js',
   output: {
-    filename: "js/[name].bundle.[contenthash:6].js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true,
+    filename: 'js/[name].bundle.[contenthash:6].js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: true
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, 'dist')
     },
     compress: true,
     port: 9000,
     hot: true,
+    open: true
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: "首页",
-      template: "template.html",
+    new DefinePlugin({
+      ENV: '"development"'
     }),
+    new HtmlWebpackPlugin({
+      title: '首页',
+      template: 'template.html'
+    })
   ],
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
+        type: 'asset/resource',
         generator: {
-          filename: "assets/[hash][ext][query]",
-        },
+          filename: 'assets/[hash][ext][query]'
+        }
       },
       {
         test: /\.js$/,
@@ -49,6 +54,6 @@ module.exports = {
           }
         }
       }
-    ],
-  },
+    ]
+  }
 }
