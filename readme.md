@@ -1,3 +1,7 @@
+## 介绍
+- 角色路由 & 基本后台 layout & node 模拟数据及登录服务 & 环境变量
+- webpack5 + react + react-router + axios + antd + styled-jsx + eslint + prettier
+
 ## 参考资料
   ### 官方文档
   - [webpack5](https://webpack.docschina.org/guides/)
@@ -23,42 +27,6 @@
   - [使用 eslint + prettier 来统一前端代码风格](https://segmentfault.com/a/1190000015315545)
   - [react-router-dom 中文文档](https://segmentfault.com/a/1190000039190541)
 
-## 项目介绍
-  1. 新建文件夹后在文件下初始化项目
-  ```javascript
-  npm init
-  ```
-  2. 安装项目所需依赖
-  ```javascript
-  // 项目框架所需依赖
-  cnpm install --save react react-dom // react 
-  cnpm install --save axios styled-jsx // 网络请求 样式方案
-  cnpm install --save antd react-router-dom // 组件库 路由导航
-  ```
-  ```javascript
-  // 打包依赖
-  cnpm install --save-dev webpack webpack-cli
-  cnpm install --save-dev style-loader css-loader // 这里主要是使用的 antd 需要
-  cnpm install --save-dev @babel/core @babel/preset-env @babel/preset-react
-  cnpm install --save-dev babel-loader
-  cnpm install --save-dev html-webpack-plugin webpack-dev-server
-  ```
-  3. 新建文件目录及文件
-  ```javascript
-  /dist // 项目打包输出
-  /src // 开发主目录
-  webpack.config.js // 生产环境打包配置
-  webpack.dev.config.js // 开发环境配置
-  /src/app.js // 依赖入口(webpack.config.js 配置从 app.js 开始解析项目文件依赖)
-  template.html // html-webpack-plugin 需要
-  ```
-  4. 使用 eslint + prettier 来统一前端代码风格
-  ```javascript
-  // 代码格式和校验
-  cnpm install --save-dev eslint babel-eslint eslint-plugin-react
-  cnpm install --save-dev prettier eslint-config-prettier eslint-plugin-prettier
-  ```
-
 ## 项目启动
   ```javascript
   - cnpm install 
@@ -66,6 +34,3 @@
   - npm run build // 生产环境打包
   - npm run lint // 代码格式及校验（具体可查看 .prettierrc.js .eslintrc.js 配置）
   ```
-
-## 备注
-package.json homepage 被设置为 "."，方便本地调试，部署到服务记得修改
