@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Input, Button } from 'antd'
 import css from 'styled-jsx/css'
 import api from '../api/index'
-import background from '../assets/login-background.gif'
+import background from '../assets/login-background.jpeg'
 
 const LoginForm = ({ onSuccess }) => {
   const onFinish = async (values) => {

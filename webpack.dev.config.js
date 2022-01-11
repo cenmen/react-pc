@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'eval-source-map',
   entry: './src/app.js',
   output: {
     filename: 'js/[name].bundle.[contenthash:6].js',
@@ -55,5 +55,10 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '/src/')
+    }
   }
 }

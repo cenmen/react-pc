@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default () => {
-  return <h1>blacklist</h1>
+  return <h2>blacklist</h2>
 }
